@@ -30,7 +30,7 @@ CREATE TABLE `books` (
   `bcount` int DEFAULT NULL,
   `isbn` varchar(45) NOT NULL,
   PRIMARY KEY (`B_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `books` (
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
-INSERT INTO `books` VALUES (1,'Computer Organization','David Peterson',2007,5,'#20101'),(2,'Automata Theory','Jacques sakarovitch',2010,5,'#20102'),(3,'Operating Systems Concepts','Peter Galvin',2007,6,'#20103'),(4,'ABC','BACKHAM',2008,1,'#20104'),(5,'Computer Networks','Larry Peterson',2011,5,'#20105'),(7,'abc','no one',2005,5,'#10120'),(8,'just tp','abcd',2000,4,'#10203'),(9,'dcgv','sdc vb',2344,6,'3rdfc'),(10,'dwefr','jnjdnmc',2001,4,'2334d'),(12,'tp','tpno',2005,NULL,'#20109');
+INSERT INTO `books` VALUES (1,'Computer Organization','David Peterson',2007,5,'#20101'),(2,'Automata Theory','Jacques sakarovitch',2010,5,'#20102'),(3,'Operating Systems Concepts','Peter Galvin',2007,6,'#20103'),(4,'ABC','BACKHAM',2008,1,'#20104'),(5,'Computer Networks','Larry Peterson',2011,5,'#20105'),(7,'abc','no one',2005,4,'#10120'),(8,'just tp','abcd',2000,4,'#10203'),(9,'dcgv','sdc vb',2344,6,'3rdfc'),(12,'tp','tpno',2005,NULL,'#20109'),(13,'Operating System','Icchanshu',2022,NULL,'#20111');
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-21  0:45:11
+-- Dump completed on 2022-04-25 22:44:08

@@ -39,7 +39,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,'admin','admin','0','admin@gmail.com','2022-04-20 23:47:28'),(2,'abc','1234','123','abc123@gmail.com','2022-04-20 20:43:57'),(3,'Sanskar','1234','1005','sanskar23@gmail.com','2022-04-20 09:49:27');
+INSERT INTO `login` VALUES (1,'admin','admin','0','admin@gmail.com','2022-04-25 19:48:07'),(2,'abc','1234','123','abc123@gmail.com','2022-04-25 20:23:29'),(3,'Sanskar','1234','1005','sanskar23@gmail.com','2022-04-24 00:21:40');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-21  0:45:09
+-- Dump completed on 2022-04-25 22:44:10

@@ -4,10 +4,12 @@ from tkinter import *
 import mysql.connector as ms
 from datetime import date, timedelta
 
+from services.SMTP import send_email
+
 def insert(title,author,year,isbn):
     conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
     cur = conn.cursor()
-    cur.execute('INSERT INTO books(isbn,bname,author,publishing_year) VALUES(%s,%s,%s,%s)',(isbn,title,author,year))
+    cur.execute('INSERT INTO books(isbn,bname,author,publishing_year) VALUES(%s,%s,%s,%s)',(isbn,title,author,int(year)))
     conn.commit()
     conn.close()
 
@@ -24,6 +26,16 @@ def get_name():
     name=dur.fetchone()
     return name
 
+#create a function to get user email
+def get_email():
+    name = get_name()
+    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    a=[]
+    cur = conn.cursor()
+    cur.execute("SELECT Email FROM login where name=%s", (name[0],))
+    email = cur.fetchone()
+    return email
+
 def request_insert(title,author,isbn):
     conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
     name=get_name()
@@ -31,7 +43,17 @@ def request_insert(title,author,isbn):
     if (title=="" or author==""):
         messagebox.showinfo("Something Unfilled","Please enter right Title & Author name")
     else :
+        #get user email
+        email= get_email()[0]
         cur.execute('INSERT INTO request(Name, Book_name,isbn,Author_Name, Requested_date) VALUES(%s,%s,%s,%s,%s)',(name[0],title,isbn,author,date.today()))
+        #send email 
+        resp = send_email(email,"145H1HBKSQ4R8QJQYMST3KYVJJC4", {
+            "name" : name[0],
+            "bookname" : title,
+            "isbn" : isbn,
+            "author" : author
+        })
+        print(resp)
     conn.commit()
     conn.close()
 
@@ -81,13 +103,20 @@ def issue_insert(bname,aname):
     cnt=tc.fetchone()
     if cnt!=0:
         cur.execute('INSERT INTO issue(Name,Bname,Issued_Date,Author) Values(%s,%s,%s,%s)',(name[0],bname,isdate,aname))
-        tc.execute('UPDATE books SET bcount=%s WHERE bname=%s AND author=%s',(cnt[0]-1,bname.upper(),aname.upper()))        
+        tc.execute('UPDATE books SET bcount=%s WHERE bname=%s AND author=%s',(cnt[0]-1,bname.upper(),aname.upper()))   
+        conn.commit()
+        print(get_email()[0])
+        resp = send_email(get_email()[0], "A4V06BXER2MFVAH5C0NSJ91N8NZ1", {
+            "name" : name[0],
+            "bookname" : bname,
+            "author" : aname,
+        })     
+        print(resp)
         messagebox.showinfo("Successfully Issued", "Please return it on time...")                                           #yaha pr book issued ka email dal dena, sath he msg me dal dena ki please return it in 3 days redate_expected vali date send kr dena...
     elif cnt[0]==0 :
         messagebox.showinfo("sorry","This book is not available for a now, please make a request..!")
     else :
         messagebox.showinfo("Sorry","This book is not available, please make a request..!")
-    conn.commit()
     conn.close()
 
 def issue_view(title):
@@ -118,12 +147,15 @@ def get_id(isbn):
     return r1
 
 def search(title,author,year,isbn):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM books WHERE bname=%s OR author=%s OR publishing_year=%s OR isbn=%s",(title.upper(),author.upper(),year,isbn))
-    rows=cur.fetchall()
-    conn.close()
-    return rows
+    try :
+        conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM books WHERE bname=%s OR author=%s OR publishing_year=%s OR isbn=%s",(title.upper(),author.upper(),year,isbn))
+        rows=cur.fetchall()
+        conn.close()
+        return rows
+    except :
+        print("Error")
 
 def delete(isbn):
     conn = ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
@@ -146,17 +178,18 @@ def update(id,title,author,year,isbn):
 
 def check_return(bname,author):
     conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
-    cur = conn.cursor()
     dur = conn.cursor()
     sname=get_name()
     dur.execute("SELECT Issued_Date FROM issue WHERE Bname=%s AND Author=%s OR Name=%s",(bname,author,sname[0]))
     a=dur.fetchone()
-    if (date.today() - a[0] > timedelta(days=3)):
+    if (date.today()-a[0] > timedelta(days=3)):
         messagebox.showinfo('Penalty','You have made it late please Pay your fine')
-        cur.execute('INSERT INTO issue(Returned_Date) VALUES(%s) WHERE Bname=%s AND Name=%s',(date.today(),bname.upper(),sname[0]))
+        cur = conn.cursor()
+        cur.execute('UPDATE issue SET Returned_Date=%s WHERE Bname=%s AND Name=%s',(date.today(),bname.upper(),sname[0]))
         conn.commit()
-    elif (date.today() - a[0] <= timedelta(days=3)):
-        cur.execute('INSERT INTO issue(Returned_Date) VALUES(%s) WHERE Bname=%s AND Name=%s',(date.today(),bname.upper(),sname[0]))
+    elif (date.today()-a[0] <= timedelta(days=3)):
+        cur = conn.cursor()
+        cur.execute('UPDATE issue SET Returned_Date=%s WHERE Bname=%s AND Name=%s',(date.today(),bname.upper(),sname[0]))
         messagebox.showinfo('Successfull','Thank you for returning it on time...')
         conn.commit()
     else :

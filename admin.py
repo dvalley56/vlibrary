@@ -110,7 +110,7 @@ class admin:
                 self.listbox.insert(END,row)
 
         def add_command(self):
-            backend.insert(self.title_text.get(),self.author_text.get(),int(float(self.year_text.get())),self.isbn_text.get())
+            backend.insert(self.title_text.get(),self.author_text.get(),self.year_text.get(),self.isbn_text.get())
             self.listbox.delete(0,END)
             self.listbox.insert(END,(self.title_text.get(),self.author_text.get(),self.year_text.get(),self.isbn_text.get()))
 

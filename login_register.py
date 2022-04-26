@@ -1,10 +1,10 @@
+from os import system
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox, ttk
 import logg
 class login:
      def __init__(self,window):
-
         self.window = window
         self.flag = 0
         self.frame = Frame(self.window,bg='Orange',width=700,height=400)
@@ -24,7 +24,6 @@ class login:
         self.password1e = Entry(self.frame,textvariable=self.password1e_text,bg='White',fg='gray',width=25,font=('Arial',16,'bold'),show='*')
 
         self.buttonlogin = Button(self.frame,text='LOG IN',bg='gray',fg='gray12',font=('Georgia',18,'bold'),cursor='hand2', command=self.login_admin)
-
 
         if self.flag !=0:
             self.buttonAdmin = Button(self.frame,text='Admin',bg='Orange',fg='gray12',font=('Georgia',18,'bold'),cursor='hand2', command=self.adminbutton2)
@@ -69,7 +68,7 @@ class login:
          self.namer = Label(self.frame,text='Name : ',bg='Orange',font=('Arial',14,'bold'))
 
          self.namere_text=StringVar()
-         self.namere = Entry(self.frame,textvariable=self.namere_text,fg='gray')
+         self.namere = Entry(self.frame,textvariable=self.namere_text,fg='gray', width=25,font=('Arial',12,'bold'))
 
          self.idr = Label(self.frame,text='Roll No. : ',bg='Orange',font=('Arial',14,'bold'))
          self.rollno_text=StringVar()
@@ -93,7 +92,7 @@ class login:
 
          self.buttonr = Button(self.frame,text='Register',bg='gray',fg='gray12',font=('Georgia',14,'bold'),cursor='hand2', command = self.create)
 
-         self.buttonr2 = Button(self.frame,text='Back',bg='gray',fg='gray12',font=('Georgia',14,'bold'),cursor='hand2',  command= self.destroy)
+         self.buttonr2 = Button(self.frame,text='Back',bg='gray',fg='gray12',font=('Georgia',14,'bold'),cursor='hand2',  command= self.distroy)
 
 
          # placing
@@ -132,17 +131,13 @@ class login:
 
 
      def adminbutton2(self):
-        #z =button2.winfo_exists()
-        #if z==1:
         self.button2.destroy()
-        #messagebox.showinfo('<title>','<show>')
         self.name = Label(self.frame,text='Enter User_Name: ',bg='Orange',font=('Arial',18,'bold'))
         self.name.place(x=100,y=140,width=240,height=60)
 
      def adminbutton(self):
         self.name = Label(self.frame,text='Enter User_Name: ',bg='Orange',font=('Arial',18,'bold'))
         self.name.place(x=100,y=140,width=240,height=60)
-
 
      def studentbutton(self):
         self.flag =1
@@ -157,24 +152,23 @@ class login:
 
      def login_admin(self):
          if len(self.namee.get()) ==0:
-                    messagebox.showinfo("ERROR", "Mendatory Field is empty")
+            messagebox.showinfo("ERROR", "Mendatory Field is empty")
          elif  len(self.password1e.get()) == 0:
-                 messagebox.showinfo("ERROR", "Mendatory Field is empty")
+            messagebox.showinfo("ERROR", "Mendatory Field is empty")
          else:
-             logg.check(self.namee_text.get(),self.password1e_text.get())
+            logg.check(self.namee_text.get(),self.password1e_text.get())
 
      def login_student(self):
           if len(self.namee.get()) ==0:
-                messagebox.showinfo("ERROR", "Mendatory Field is empty")
+              messagebox.showinfo("ERROR", "Mendatory Field is empty")
           elif  len(self.password1e.get()) == 0:
-                messagebox.showinfo("ERROR", "Mendatory Field is empty")
+              messagebox.showinfo("ERROR", "Mendatory Field is empty")
           else:
               logg.checks(self.namee_text.get(),self.password1e_text.get())
+              window.wm_state('iconic')
              
-     def destroy(self):
+     def distroy(self):
          self.labelr.destroy()
-         #self.name.destroy()
-         #self.namee.destroy()
          self.namer.destroy()
          self.namere.destroy()
          self.idr.destroy()
