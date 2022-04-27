@@ -77,15 +77,17 @@ class admin:
             self.entry_isbn.delete(0,END)
             self.listbox.delete(0,END)
 
-        def issuedelete_command(self):
-            backend.issue_delete()
+        def issuereturn_command(self):
+            self.listbox.delete(0,END)
+            for row in backend.issue_return():
+                self.listbox.insert(END,row)
 
         def issuesearch_command(self):
             self.listbox.delete(0,END)
             for row in backend.issue_view(self.title_text.get()):
                 self.listbox.insert(END,row)
 
-            self.button_issuedelete = Button(self.frame, text='Book Returned', command=self.issuedelete_command)
+            self.button_issuedelete = Button(self.frame, text='Book Returned', command=self.issuereturn_command)
             self.button_issuedelete.place(x=400, y=360,width=100,height=40)
 
         def requestsearch_command(self):

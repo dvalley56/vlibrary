@@ -46,6 +46,7 @@ def request_insert(title,author,isbn):
         #get user email
         email= get_email()[0]
         cur.execute('INSERT INTO request(Name, Book_name,isbn,Author_Name, Requested_date) VALUES(%s,%s,%s,%s,%s)',(name[0],title,isbn,author,date.today()))
+        messagebox.showinfo("Successfull","You have successfully requested a book.")
         #send email 
         resp = send_email(email,"145H1HBKSQ4R8QJQYMST3KYVJJC4", {
             "name" : name[0],
@@ -83,13 +84,16 @@ def request_delete(title,isbn):
     return b
     
                                                                                        
-def issue_delete():
+def issue_return():
     conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
-    a=get_name()
-    cur.execute("DELETE FROM issue WHERE Name=%s",(a[0],) )
-    conn.commit()
+    #a=get_name()
+    cur.execute("SELECT * From issue WHERE Returned_Date IS NOT NULL" )
+    a=cur.fetchall()
+
+    #conn.commit()
     conn.close()
+    return a
 
 def issue_insert(bname,aname):
     isdate=date.today()
@@ -121,9 +125,9 @@ def issue_view(title):
     conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     if title=="":
-        cur.execute("SELECT * FROM issue")
+        cur.execute("SELECT * FROM issue WHERE Returned_Date IS NULL")
     else :
-        cur.execute("SELECT * FROM issue WHERE Bname=%s",(title.upper(),))
+        cur.execute("SELECT * FROM issue WHERE Bname=%s AND Returned_Date IS NULL",(title.upper(),))
     rows=cur.fetchall()
     conn.close()
     return rows
