@@ -37,7 +37,7 @@ def check(name,password):
 def checks(name,password):                       # for student login
     conn=ms.connect(host="127.0.0.1", user="root", password="asdf1234@#",database="user")
     cur = conn.cursor()
-    t= datetime.datetime.now()
+    t= datetime.now()
     cur.execute('SELECT * FROM login WHERE name = %s AND pass = %s', (name, password))
     if cur.fetchone():
         tc = conn.cursor()

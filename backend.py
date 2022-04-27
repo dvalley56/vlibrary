@@ -53,7 +53,6 @@ def request_insert(title,author,isbn):
             "isbn" : isbn,
             "author" : author
         })
-        print(resp)
     conn.commit()
     conn.close()
 
@@ -81,7 +80,7 @@ def request_delete(title,isbn):
     messagebox.showinfo("Successfull","Request Completed..")
     conn.commit()
     conn.close()
-    return b                 #isa yaha b[0] me student ka email ayega as ye command execute hogi yaha bhi msg dall dena like, jo book request ki thi vo available hai....book title bhej dena..
+    return b
     
                                                                                        
 def issue_delete():
@@ -105,14 +104,13 @@ def issue_insert(bname,aname):
         cur.execute('INSERT INTO issue(Name,Bname,Issued_Date,Author) Values(%s,%s,%s,%s)',(name[0],bname,isdate,aname))
         tc.execute('UPDATE books SET bcount=%s WHERE bname=%s AND author=%s',(cnt[0]-1,bname.upper(),aname.upper()))   
         conn.commit()
-        print(get_email()[0])
-        resp = send_email(get_email()[0], "A4V06BXER2MFVAH5C0NSJ91N8NZ1", {
+        resp = send_email(get_email()[0], "GNWSK3ECT2M62ZHKGMVCJ7SNQP35", {
             "name" : name[0],
             "bookname" : bname,
             "author" : aname,
-        })     
-        print(resp)
-        messagebox.showinfo("Successfully Issued", "Please return it on time...")                                           #yaha pr book issued ka email dal dena, sath he msg me dal dena ki please return it in 3 days redate_expected vali date send kr dena...
+            "returnDate" : '{} 12:00PM'.format(str(redate_expected))
+        })
+        messagebox.showinfo("Successfully Issued", "Please return it on time...")
     elif cnt[0]==0 :
         messagebox.showinfo("sorry","This book is not available for a now, please make a request..!")
     else :
