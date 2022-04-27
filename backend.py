@@ -7,14 +7,14 @@ from datetime import date, timedelta
 from services.SMTP import send_email
 
 def insert(title,author,year,isbn):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     cur.execute('INSERT INTO books(isbn,bname,author,publishing_year) VALUES(%s,%s,%s,%s)',(isbn,title,author,int(year)))
     conn.commit()
     conn.close()
 
 def get_name():
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     a=[]
     cur = conn.cursor()
     cur.execute("SELECT Time FROM login")
@@ -29,7 +29,7 @@ def get_name():
 #create a function to get user email
 def get_email():
     name = get_name()
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     a=[]
     cur = conn.cursor()
     cur.execute("SELECT Email FROM login where name=%s", (name[0],))
@@ -37,7 +37,7 @@ def get_email():
     return email
 
 def request_insert(title,author,isbn):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     name=get_name()
     cur = conn.cursor()
     if (title=="" or author==""):
@@ -57,7 +57,7 @@ def request_insert(title,author,isbn):
     conn.close()
 
 def request_view(title,author,year,isbn):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     if title=='' or author=='' or year=='' or isbn=='':
         cur.execute("SELECT * FROM request")
@@ -68,7 +68,7 @@ def request_view(title,author,year,isbn):
     return rows
 
 def request_delete(title,isbn):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     dur = conn.cursor()
     sur = conn.cursor()
@@ -84,7 +84,7 @@ def request_delete(title,isbn):
     
                                                                                        
 def issue_delete():
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     a=get_name()
     cur.execute("DELETE FROM issue WHERE Name=%s",(a[0],) )
@@ -94,7 +94,7 @@ def issue_delete():
 def issue_insert(bname,aname):
     isdate=date.today()
     redate_expected=isdate + timedelta(days=3)
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     tc= conn.cursor()
     name=get_name()
@@ -118,7 +118,7 @@ def issue_insert(bname,aname):
     conn.close()
 
 def issue_view(title):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     if title=="":
         cur.execute("SELECT * FROM issue")
@@ -130,7 +130,7 @@ def issue_view(title):
 
 
 def view():
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     cur.execute("SELECT * FROM books")
     rows=cur.fetchall()
@@ -138,7 +138,7 @@ def view():
     return rows
 
 def get_id(isbn):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")    
     cur=conn.cursor()
     cur.execute('SELECT B_id FROM books WHERE isbn=%s',(isbn,))
     r1=cur.fetchone()
@@ -146,7 +146,7 @@ def get_id(isbn):
 
 def search(title,author,year,isbn):
     try :
-        conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+        conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
         cur = conn.cursor()
         cur.execute("SELECT * FROM books WHERE bname=%s OR author=%s OR publishing_year=%s OR isbn=%s",(title.upper(),author.upper(),year,isbn))
         rows=cur.fetchall()
@@ -156,7 +156,7 @@ def search(title,author,year,isbn):
         print("Error")
 
 def delete(isbn):
-    conn = ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     a= get_id(isbn)
     if(a!=NULL):
@@ -168,14 +168,14 @@ def delete(isbn):
     conn.close()
 
 def update(id,title,author,year,isbn):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     cur = conn.cursor()
     cur.execute("UPDATE books SET bname=%s,author=%s,publishing_year=%s,isbn=%s WHERE B_id=%s",(title,author,year,isbn,id[0]))
     conn.commit()
     conn.close()
 
 def check_return(bname,author):
-    conn=ms.connect(host='127.0.0.1',database='user',user='root', password="asdf1234@#")
+    conn=ms.connect(host="127.0.0.1", user="root", password="Manish@2432",database="user")
     dur = conn.cursor()
     sname=get_name()
     dur.execute("SELECT Issued_Date FROM issue WHERE Bname=%s AND Author=%s OR Name=%s",(bname,author,sname[0]))
